@@ -4,6 +4,7 @@
 chea/*
 gsea_msigdb/*
 tfcat/*
+.\#*
 
 # C extensions
 *.so
