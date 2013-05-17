@@ -5,22 +5,30 @@
 # Unique Genes (plus transcription factor genes): 12280
 # 1876 transcription factors
 """
-## TODO: load nature genes, expand number of columns in adj matrix
 import sys
 import gsea_msigdb.read_tf2targs as gsea
 import numpy as np
 import matrix_io as mio
+
+GSEA_FNAME = "gsea_tftargs.csv"
+NATURE_FNAME = "nature.tfsyms.txt"
+
 FNAME_OUT = "TF.ADJ.tab"
 
-def main(fname="tf2targs.tab"):
-  genes = set()
-  adj_d = gsea.parse(fname)
+def main():
+  genes, tfs = set(), set()
+  adj_d = gsea.parse(GSEA_FNAME)
+  nature_g = [s.strip() for s in open(NATURE_FNAME)]
+  genes.update(nature_g)
+  tfs.update(nature_g)
+  
   for tf, targs in adj_d.items():
-    genes.add(tf); genes.update(targs)
+    genes.add(tf); tfs.add(tf); genes.update(targs); 
+
   rownames = sorted(genes)
-  colnames = sorted(adj_d)
+  colnames = sorted(tfs)
   row_idx = dict(((s,i) for i,s in enumerate(rownames)))
-  A = np.zeros((len(colnames), len(rownames)))
+  A = np.zeros((len(rownames), len(colnames)))
   
   for j,tf in enumerate(colnames):
     for g in adj_d[tf]:
