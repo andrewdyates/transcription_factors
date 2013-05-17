@@ -4,16 +4,19 @@
 # Transcription factors: 235
 # Unique Genes (plus transcription factor genes): 12280
 # 1876 transcription factors
+---
+# interactions: 135831
+# genesXtf size: (12955, 1917)
 """
 import sys
 import gsea_msigdb.read_tf2targs as gsea
 import numpy as np
 import matrix_io as mio
 
-GSEA_FNAME = "gsea_tftargs.csv"
+GSEA_FNAME = "gsea_msigdb/tf2targs.tab"
 NATURE_FNAME = "nature.tfsyms.txt"
 
-FNAME_OUT = "TF.ADJ.tab"
+FNAME_OUT = "/nfs/01/osu6683/tftargets/tf_adj_matrix.tab"
 
 def main():
   genes, tfs = set(), set()
@@ -31,7 +34,7 @@ def main():
   A = np.zeros((len(rownames), len(colnames)))
   
   for j,tf in enumerate(colnames):
-    for g in adj_d[tf]:
+    for g in adj_d.get(tf,[]):
       i = row_idx[g]
       A[i,j] = 1
 
