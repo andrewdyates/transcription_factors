@@ -1,10 +1,8 @@
 *.py[cod]
 .DS*
 *.html
-chea/*
-gsea_msigdb/*
-tfcat/*
 .\#*
+*.gmt
 
 # C extensions
 *.so
