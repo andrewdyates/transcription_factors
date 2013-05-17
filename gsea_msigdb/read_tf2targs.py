@@ -9,7 +9,8 @@ output is: transcription factor gene, list of target genes
 """
 import sys
 
-def main(fname=sys.argv[1]):
+def main(fname=None):
+  if fname is None: fname = sys.argv[1]
   n_tfs = 0
   genes = set()
   for tf, targs in parse(fname).items():
