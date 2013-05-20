@@ -28,8 +28,8 @@ def main():
   for tf, targs in adj_d.items():
     genes.add(tf); tfs.add(tf); genes.update(targs); 
 
-  rownames = sorted(genes)
-  colnames = sorted(tfs)
+  rownames = sorted(['"%s"'%s for s in genes])
+  colnames = sorted(['"%s"'%s for s in tfs])
   row_idx = dict(((s,i) for i,s in enumerate(rownames)))
   A = np.zeros((len(rownames), len(colnames)))
   
