@@ -13,10 +13,13 @@ import gsea_msigdb.read_tf2targs as gsea
 import numpy as np
 import matrix_io as mio
 
-GSEA_FNAME = "gsea_msigdb/tf2targs.tab"
-NATURE_FNAME = "nature.tfsyms.txt"
+#GSEA_FNAME = "gsea_msigdb/tf2targs.tab"
+GSEA_FNAME = "gsea_msigdb/tf2targs.tab.aliasmap.tab"
+#NATURE_FNAME = "nature.tfsyms.txt"
+NATURE_FNAME = "nature.tfsyms.txt.aliasmap.txt"
 
-FNAME_OUT = "/nfs/01/osu6683/tftargets/tf_adj_matrix.tab"
+#FNAME_OUT = "/nfs/01/osu6683/tftargets/tf_adj_matrix.tab"
+FNAME_OUT = "/nfs/01/osu6683/tftargets/tf_adj_matrix_aliasmapped.tab"
 
 def main():
   genes, tfs = set(), set()
