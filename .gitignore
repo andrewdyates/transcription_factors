@@ -2,7 +2,6 @@
 .DS*
 *.html
 .\#*
-*.gmt
 
 # C extensions
 *.so
