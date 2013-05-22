@@ -2,6 +2,7 @@
 .DS*
 *.html
 .\#*
+all_tf_with_targs_may_21_2013_adjm.tab
 
 # C extensions
 *.so
