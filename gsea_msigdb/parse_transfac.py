@@ -1,7 +1,11 @@
 #!/usr/bin/python
-"""Scrape transcription factor gene from each TRANSFAC ID.
+"""From web dump, scrape TRANSFACT IDs and corresponding genes, save to file.
+Intended for use after executing "scrape_transfac.py" to download all relevant .html files.
+Outputs a map from TRANSFACT ID to putative transcription factor gene symbol names.
+  Multiple gene names separated with ';'
+  Declared missing gene names represented as string 'None'.
 
-python parse_transfac.py > ../transfac.id.to.genes.tab
+$ python parse_transfac.py > transfac_id_to_genes_raw.tab
 """
 import sys, re, urllib2
 
