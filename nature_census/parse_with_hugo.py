@@ -10,6 +10,16 @@ For the analysis we focused on 1,391 TFs that were classified as 'a', 'b' or 'ot
 
 Writes list to file.
 
+Bad ensembl IDs 418
+Good lines: 1417
+# Unrecognized lines: 0
+used_syms 405
+remapped_syms 13
+ambigious_syms 0
+# recognized tfs 1832
+# high quality tf 1331
+# low quality tf 501
+
 python parse_ensembl.py
 """
 import sys
