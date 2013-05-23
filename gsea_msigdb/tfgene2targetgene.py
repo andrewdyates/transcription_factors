@@ -126,6 +126,8 @@ def make_map():
           if sss != ss:
             print "WARNING: %s sym mapped to %s is not offical symbol %s." % (ss,s,sss)
             bad_biopymapped.add(s)
+            # add the symbol even though it is not an officially mappable symbol
+            targs.add(ss)
           else:
             targs.add(ss)
       else:
@@ -170,6 +172,8 @@ def main():
   fp_out = open(TF_MAP_OUT_FNAME, "w")
   for tf in sorted(tf_map):
     print >>fp_out, ",".join([tf]+sorted(tf_map[tf]))
+  fp_out.close()
+  print "Wrote TF cleaned GSEA map to", TF_MAP_OUT_FNAME
 
 if __name__ == "__main__":
   main()
