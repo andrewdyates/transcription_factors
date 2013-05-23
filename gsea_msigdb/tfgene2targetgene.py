@@ -13,7 +13,7 @@ import biopython_entrez
 
 TF_MAP_OUT_FNAME = "tf2targs.may-21-2013.csv"
 
-TF_FNAME = "transfac_id_to_genes_raw.tab" # TRANSFACT ID => Symbols mapping as from 'parse_transfac.py'
+TF_FNAME = "transfac_id_to_genes_raw.tab" # TRANSFACT ID => TF Gene Symbol mapping as from 'parse_transfac.py'
 TARG_FNAME = "c3.tft.v3.1.entrez.gmt"    # GSEA TRANSFACT ID => Target symbols mapping
 SELECT_ENTREZ_MAP = eval(open("static_entrez_py_dict.txt").read())
 
@@ -89,7 +89,7 @@ def make_map():
       ss = H.find_sym(s, allow_dupe=True)
       if ss is None:
         print "Unknown...", s
-        unknown_tf += 1
+        unknown_tf += 1 # this is the entry that we should fix
       elif isinstance(ss, set):
         multi_tf += 1; print s, ss
       else:

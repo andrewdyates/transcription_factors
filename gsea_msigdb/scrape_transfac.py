@@ -2,7 +2,7 @@
 """Scrape transcription factor gene from each TRANSFAC ID"""
 import sys, re, urllib2
 
-FNAME = "c3.tft.v3.1.symbols.gmt"
+FNAME = "c3.tft.v3.1.entrez.gmt"
 #http://www.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=V$E47_01
 URL_PTN = "http://www.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=%s"
 RX_BRIEF = re.compile("<th>Brief description(.+?)</td>", re.I|re.M)

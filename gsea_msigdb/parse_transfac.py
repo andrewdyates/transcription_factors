@@ -9,7 +9,7 @@ $ python parse_transfac.py > transfac_id_to_genes_raw.tab
 """
 import sys, re, urllib2
 
-FNAME = "c3.tft.v3.1.symbols.gmt"
+FNAME = "c3.tft.v3.1.entrez.gmt"
 #http://www.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=V$E47_01
 FNAME_PTN = "gsea_html/%s.html"
 RX_BRIEF = re.compile("Brief description</th>(.+?)</td>", flags=re.I|re.M|re.S)

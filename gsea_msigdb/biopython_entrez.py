@@ -1,4 +1,6 @@
+#!/usr/bin/python
 from Bio import Entrez
+import sys
 Entrez.email = "user@osu.edu"
 
 def retrieve_one_annotation(entrezid):
@@ -22,7 +24,7 @@ def retrieve_annotation(id_list):
   data = Entrez.esummary(db="gene", webenv=webEnv, query_key=queryKey)
   annotations = Entrez.read(data)
  
-  print "Retrieved %d annotations for %d genes" % (len(annotations), len(id_list))
+  print >>sys.stderr, "Retrieved %d annotations for %d genes" % (len(annotations), len(id_list))
   return annotations
   
 def generate_dict(annotation):
@@ -30,6 +32,8 @@ def generate_dict(annotation):
   for gene_data in annotation:
     gene_id = gene_data["Id"]
     gene_symbol = gene_data["NomenclatureSymbol"]
+    if not gene_symbol:
+      gene_symbol = gene_data["Name"]
     idmap[gene_id] = gene_symbol
   return idmap
 
