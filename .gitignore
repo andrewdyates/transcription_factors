@@ -3,6 +3,8 @@
 *.html
 .\#*
 all_tf_with_targs_may_21_2013_adjm.tab
+lit/*.txt
+lit/dataForTF.xls
 
 # C extensions
 *.so
