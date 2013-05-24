@@ -18,7 +18,7 @@ def trysym(s):
   ss = s.split(' ')[0]
   z = H.find_sym(ss, allow_dupe=True)
   if z: return z
-  ss = s.split(',')[0]
+  ss = s.split(',')[0].strip()
   z = H.find_sym(ss, allow_dupe=True)
   if z: return z
   s = rmch(s)
@@ -27,17 +27,17 @@ def trysym(s):
   ss = s.replace('ALPHA','A').replace('BETA','B')
   z = H.find_sym(ss, allow_dupe=True)
   if z: return z
-  ss = s.replace('ALPHA','').replace('BETA','')
-  z = H.find_sym(ss, allow_dupe=True)
-  if z: return z
+  # ss = s.replace('ALPHA','').replace('BETA','')
+  # z = H.find_sym(ss, allow_dupe=True)
+  # if z: return z
   ss = "-".join(filter(None, re.split('([0-9]+)', s)))
   z = H.find_sym(ss, allow_dupe=True)
   if z: return z
   # special cases
   if s == "P53": return "TP53"
-  if s[-1] in ("AB"):
-    z = H.find_sym(s[:-1])
-    if z: return z
+  # if s[-1] in ("AB"):
+  #   z = H.find_sym(s[:-1])
+  #   if z: return z
   ss = s.split('/')[0]
   z = H.find_sym(ss, allow_dupe=True)
   if z: return z
@@ -58,6 +58,13 @@ def parse(fname):
     n_all += 1
     
     gene, tf, spec = row[0], row[1], row[3]
+    # specially handle Myc file family entries
+    if "MYC" in fname.upper():
+      if tf == "C":
+        tf = "MYC"
+      elif tf == "N":
+        tf = "MYCN"
+      
     if spec != "Human": continue
     if not gene or not tf:
       print "$ MISSING GENE OR TF:", line.strip('\n\r')
