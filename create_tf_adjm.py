@@ -16,6 +16,8 @@ Printing list of transcription factors with putative targets to all_tf_with_targ
 # genes total: 12743
 # transcription factors: 1375
 # transcription factors with targets: 246
+# interactions: 134211
+# genesXtf size: (12743, 1375)
 """
 import numpy as np
 import matrix_io as mio
