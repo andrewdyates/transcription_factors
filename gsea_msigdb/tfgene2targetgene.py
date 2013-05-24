@@ -6,9 +6,30 @@ Read targets as entrez, map to symbol using Hugo module.
 Writes to TF_MAP_OUT_FNAME as csv where first element in row is TF gene symbol, all others are targets.
 
 python tfgene2targetgene.py
+
+total transfac entries: 615
+unknown_tid: 115
+no_tf: 61
+multi_tf: 0
+unknown_tf: 0
+remap_tf: 37
+unknown_entrez (all instances where from entrez rather than directly using HUGO): 3685
+manual_mapped: 2
+manual_ignored: 35
+# unbiopymapped (entrez ID returned null string for symbol) 0
+# bad_biopymapped (entrez-provided symbol used even though it is not official): 0
+# unmappable_entrez (entrez-IDs without any symbol at all): 0
+# unique unknown entrez ids mapped from ENTREZ: 336
+# mapped Transcription factors: 234
+# unique symbols: 12268
+
+unbiopymapped: set([])
+
+bad_biopymapped: set([])
+Wrote TF cleaned GSEA map to tf2targs.may-21-2013.csv
 """
 import hugo_gene_symbols
-import biopython_entrez
+#import biopython_entrez
 
 
 TF_MAP_OUT_FNAME = "tf2targs.may-21-2013.csv"
@@ -124,8 +145,10 @@ def make_map():
         else:
           sss = H.find_sym(ss)
           if sss != ss:
-            print "WARNING: %s sym mapped to %s is not offical symbol %s." % (ss,s,sss)
-            bad_biopymapped.add(s)
+            if s not in bad_biopymapped:
+              print "WARNING: %s sym mapped to %s is not offical symbol %s." % (ss,s,sss)
+            else:
+              bad_biopymapped.add(s)
             # add the symbol even though it is not an officially mappable symbol
             targs.add(ss)
           else:
@@ -146,19 +169,21 @@ def make_map():
   print "multi_tf:", multi_tf
   print "unknown_tf:", unknown_tf
   print "remap_tf:", remap_tf
-  print "unknown_entrez:", unknown_entrez
+  print "unknown_entrez (all instances where from entrez rather than directly using HUGO):", unknown_entrez
   print "manual_mapped:", manual_mapped
   print "manual_ignored:", manual_ignore
-  print "# unbiopymapped:", len(unbiopymapped)
-  print "# bad_biopymapped:", len(bad_biopymapped)
-  print "# unmappable_entrez:", unmappable_entrez
-  print "# unique unknown entrez ids:", len(all_unknown_entrez)
+  print "# unbiopymapped (entrez ID returned null string for symbol)", len(unbiopymapped)
+  print "# bad_biopymapped (entrez-provided symbol used even though it is not official):", len(bad_biopymapped)
+  print "# unmappable_entrez (entrez-IDs without any symbol at all):", unmappable_entrez
+  print "# unique unknown entrez ids mapped from ENTREZ:", len(all_unknown_entrez)
   print "# mapped Transcription factors:", len(tf_map)
   print "# unique symbols:", len(all_syms)
   print
   print "unbiopymapped:", unbiopymapped
   print
   print "bad_biopymapped:", bad_biopymapped
+  assert "SEP15" in all_syms
+
 
   # Save Result
   # uncomment to print unaccounted entrez IDs
