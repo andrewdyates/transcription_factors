@@ -3,6 +3,7 @@
 Use new symbol mapped lists. Use only "high quality" TF list.
 Also output csv of target to putative mappings.
 
+# NO LIT
 python create_tf_adjm.py
 # genes total: 12692
 # transcription factors: 1370
@@ -10,6 +11,12 @@ python create_tf_adjm.py
 Printing list of transcription factors with putative targets to all_tf_with_targs_may_21_2013.csv
 # interactions: 133764
 # genesXtf size: (12692, 1370)
+
+# WITH LIT
+# genes total: 12743
+# transcription factors: 1375
+# transcription factors with targets: 246
+Printing list of transcription factors with putative targets to all_tf_with_targs_may_21_2013.csv
 """
 import numpy as np
 import matrix_io as mio
