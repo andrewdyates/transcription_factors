@@ -17,23 +17,31 @@ import sys
 
 TARGS_FNAME = "gsea_msigdb/tf2targs.may-21-2013.csv"
 TFLIST_FNAME = "nature_census/nature_tf_list_high_may21_2013.txt"
+LIT_FNAME = "lit/lit_factors_may23_2013.csv"
 MERGED_LIST_OUT_FNAME = "all_tf_with_targs_may_21_2013.csv"
 # Warning: the adj matrix is a huge file. Move it out of the local directory once created.
 ADJM_OUT_FNAME = "all_tf_with_targs_may_21_2013_adjm.tab"
 
 
-def main():
+def main(write_adj=False):
   all_genes = set()
   tf_targs = {}
   for line in open(TARGS_FNAME):
     row = line.strip('\n\r').split(',')
-    tf_targs[row[0]] = row[1:]
+    tf_targs[row[0]] = set(row[1:])
     all_genes.update(row[1:])
    
   tfs = set(tf_targs.keys())
   for line in open(TFLIST_FNAME):
     tfs.add(line.strip('\n\r'))
   all_genes.update(tfs)
+
+  for line in open(LIT_FNAME):
+    row = line.strip().split(',')
+    tf, targs = row[0], row[1:]
+    tfs.add(tf)
+    all_genes.update(row)
+    tf_targs.setdefault(tf,set()).update(targs)
 
   # STATS
   print "# genes total:", len(all_genes)
@@ -49,6 +57,7 @@ def main():
       print >>fp_out, tf
       
   # Text adj matrix, columns TF, rows TF targets
+  if not write_adj: return 0
   rownames = sorted(all_genes)
   colnames = sorted(tfs)
   row_idx = dict(((s,i) for i,s in enumerate(rownames)))
@@ -65,4 +74,4 @@ def main():
 
 
 if __name__ == "__main__":
-  main()
+  main(**dict((s.split('=') for s in sys.argv[1:])))
