@@ -22,16 +22,20 @@ Printing list of transcription factors with putative targets to all_tf_with_targ
 import numpy as np
 import matrix_io as mio
 import sys
+from subprocess import Popen, PIPE, STDOUT
 
 TARGS_FNAME = "gsea_msigdb/tf2targs.may-21-2013.csv"
 TFLIST_FNAME = "nature_census/nature_tf_list_high_may21_2013.txt"
 LIT_FNAME = "lit/lit_factors_may23_2013.csv"
 MERGED_LIST_OUT_FNAME = "all_tf_with_targs_may_21_2013.csv"
 # Warning: the adj matrix is a huge file. Move it out of the local directory once created.
-ADJM_OUT_FNAME = "all_tf_with_targs_may_21_2013_adjm.tab"
+ADJM_OUT_FNAME = "all_tf_with_targs_adjm.tab"
+LOAD_TMP = open("tf_load_save.R").read()
 
 
-def main(write_adj=False):
+def main(write_adj_fname=ADJM_OUT_FNAME):
+  if isinstance(write_adj_fname,basestring) and write_adj_fname.lower() in ('f','false','none'):
+    write_adj_fname = None
   all_genes = set()
   tf_targs = {}
   for line in open(TARGS_FNAME):
@@ -65,7 +69,10 @@ def main(write_adj=False):
       print >>fp_out, tf
       
   # Text adj matrix, columns TF, rows TF targets
-  if not write_adj: return 0
+  if not write_adj_fname:
+    return 0
+  else:
+    print "Writing to .tab text file..."
   rownames = sorted(all_genes)
   colnames = sorted(tfs)
   row_idx = dict(((s,i) for i,s in enumerate(rownames)))
@@ -78,7 +85,13 @@ def main(write_adj=False):
       
   print >>sys.stderr, "# interactions: %d" % np.sum(A)
   print >>sys.stderr, "# genesXtf size:", A.shape
-  mio.save(A, fp=ADJM_OUT_FNAME, row_ids=['"%s"'%s for s in rownames], col_ids=['"%s"'%s for s in colnames], fmt="%d")
+  mio.save(A, fp=write_adj_fname, row_ids=['"%s"'%s for s in rownames], col_ids=['"%s"'%s for s in colnames], fmt="%d")
+  # compile to R object using R script wrapper
+  print "Converting to RData binary object..."
+  r_script = LOAD_TMP % {'fname':write_adj_fname}
+  p = Popen(["R", "--vanilla", "--slave"], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+  print p.communicate(input=r_script)
+  p.stdin.close()
 
 
 if __name__ == "__main__":
