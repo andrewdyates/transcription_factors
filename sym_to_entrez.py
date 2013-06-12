@@ -37,7 +37,8 @@ def get_entrezes(s):
     
 
 no_entrez = set()
-fp_out = open(FNAME_ENTREZ, 'w')
+tf_entrezes = {}
+
 for line in open(FNAME):
   row = line.strip('\n\r').split(',')
   tf, targs = row[0], row[1:]
@@ -50,7 +51,7 @@ for line in open(FNAME):
   if len(tfe) > 1:
     print >>sys.stderr, "TF %s has %d entrez IDs: %s" % (tf, len(tfe), ", ".join(tfe))
   for tfei in tfe:
-    rowe = [tfei]
+    etargs = set()
     for ss in targs:
       sse = get_entrezes(ss)
       if not sse:
@@ -58,6 +59,12 @@ for line in open(FNAME):
         no_entrez.add(ss)
       else:
         for sss in sse:
-          rowe.append(sss)
-    print >>fp_out, ",".join(rowe)
+          etargs.add(sss)
+    tf_entrezes.setdefault(tfei,set()).update(etargs)
+
+# print results
+fp_out = open(FNAME_ENTREZ, 'w')
+for tfe in sorted(tf_entrezes):
+  print >>fp_out, ",".join([tfe]+sorted(tf_entrezes[tfe]))
+fp_out.close()
   
