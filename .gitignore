@@ -5,6 +5,9 @@
 all_tf_with_targs_may_21_2013_adjm.tab
 lit/*.txt
 lit/dataForTF.xls
+all_tf_with_targs_adjm.tab
+all_tf_with_targs_adjm.tab.RData
+*.RData
 
 # C extensions
 *.so
