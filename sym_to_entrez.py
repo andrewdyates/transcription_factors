@@ -1,5 +1,7 @@
 #!/usr/bin/python
 """Remap gene symbols in csv to entrez IDs
+
+WARNING: hack. Not stable for reuse.
 """
 import ncbi_gene_info
 import hugo_gene_symbols
