@@ -11,6 +11,8 @@ R = ncbi_gene_info.load_list()
 
 FNAME = "all_tf_with_targs_may_21_2013.csv"
 FNAME_ENTREZ = FNAME + ".entrez.csv"
+FNAME_ENTREZ_TFONLY = FNAME + ".entrez.tfonly.txt"
+
 MANUAL_MAP = {'FOXM1C': set(['2305'])}
 
 sym_to_entrez, alias_to_entrez = ncbi_gene_info.sym_to_entrez_dicts(R)
@@ -69,4 +71,8 @@ fp_out = open(FNAME_ENTREZ, 'w')
 for tfe in sorted(tf_entrezes):
   print >>fp_out, ",".join([tfe]+sorted(tf_entrezes[tfe]))
 fp_out.close()
-  
+
+fp_out = open(FNAME_ENTREZ_TFONLY, 'w')
+for tfe in sorted(tf_entrezes):
+  print >> fp_out, tfe
+fp_out.close()
